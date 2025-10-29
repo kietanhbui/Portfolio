@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiet's Portfolio</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'caveat': ['Caveat', 'cursive'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        gray: {
+                            200: '#e5e7eb',
+                            500: '#6b7280',
+                            700: '#374151',
+                            900: '#111827',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom styles for the avatar */
+        .avatar-container {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .greeting-text {
+            transform: rotate(357.214deg);
+        }
+        
+        /* Button icon animation */
+        .btn-icon {
+            opacity: 0;
+            width: 0;
+            margin-left: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .group:hover .btn-icon {
+            opacity: 1;
+            width: 12px;
+            margin-left: 16px;
+            transform: scale(1);
+        }
+        
+        /* Tab styles */
+        .tab-button.active {
+            border-bottom: 1px solid #111827;
+        }
+        
+        .tab-button:not(.active):hover svg {
+            color: #374151;
+        }
+        
+        .tab-button:not(.active):hover span {
+            color: #374151;
+        }
+        
+        /* Project item hover animation */
+        .project-arrow-icon {
+            display: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .project-item {
+            background-color: transparent !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            gap: 0 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .project-item:hover {
+            background-color: #F3F4F6 !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+            gap: 16px !important;
+        }
+        
+        /* Debug: Force background on hover with more specific selector */
+        
+        /* Background gradient overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(249, 250, 251, 0.6) 0%, rgba(249, 250, 251, 0.2) 50%, rgba(249, 250, 251, 0.1) 100%);
+            pointer-events: none;
+            z-index: 0;
+            transition: background 0.3s ease;
+        }
+
+        /* Dark mode styles */
+        html.dark body {
+            background-color: #111827 !important;
+            background-image: radial-gradient(circle at 1px 1px, rgba(75, 85, 99, 0.25) 1px, transparent 0) !important;
+        }
+
+        html.dark body::before {
+            background: radial-gradient(circle at center, rgba(17, 24, 39, 0.6) 0%, rgba(17, 24, 39, 0.2) 50%, rgba(17, 24, 39, 0.1) 100%) !important;
+        }
+
+        html.dark .text-gray-900 {
+            color: #f9fafb !important;
+        }
+
+        html.dark .text-gray-700 {
+            color: #d1d5db !important;
+        }
+
+        html.dark .text-gray-500 {
+            color: #9ca3af !important;
+        }
+
+        html.dark .bg-gray-100 {
+            background-color: #374151 !important;
+        }
+
+        html.dark .bg-gray-50 {
+            background-color: #1f2937 !important;
+        }
+
+        html.dark .border-gray-200 {
+            border-color: #374151 !important;
+        }
+
+        html.dark .border-gray-300 {
+            border-color: #4b5563 !important;
+        }
+
+        html.dark #dark-mode-toggle {
+            background-color: #374151 !important;
+            border-color: #4b5563 !important;
+        }
+
+        html.dark #dark-mode-toggle svg {
+            color: #d1d5db !important;
+        }
+
+        /* Testimonial switcher arrows dark mode styling */
+        html.dark #prev-testimonial,
+        html.dark #next-testimonial {
+            background-color: transparent !important;
+        }
+
+        html.dark #prev-testimonial:hover,
+        html.dark #next-testimonial:hover {
+            background-color: #4b5563 !important;
+        }
+
+
+        /* Button dark mode styling */
+        html.dark button.bg-gray-900 {
+            background-color: #f9fafb !important;
+            color: #111827 !important;
+        }
+
+        html.dark button.bg-gray-900:hover {
+            background-color: #e5e7eb !important;
+        }
+
+        html.dark button.border-gray-300 {
+            border-color: #6b7280 !important;
+            color: #f9fafb !important;
+        }
+
+        html.dark button.border-gray-300:hover {
+            background-color: #374151 !important;
+            border-color: #9ca3af !important;
+        }
+
+        /* Tab underline dark mode */
+        html.dark button.border-gray-900 {
+            border-color: #f9fafb !important;
+        }
+
+        /* Project item hover background dark mode */
+        html.dark div.project-item:hover {
+            background-color: #374151 !important;
+        }
+        
+
+        /* Page load animations */
+        @keyframes gentleSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        
+        /* Tab switching animations */
+        .tab-content {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        
+        .tab-content.hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+        
+        .tab-content:not(.hidden) {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Talk bubble animation */
+        @keyframes talkBubbleBounce {
+            0% {
+                opacity: 0;
+                transform: translateX(-30px) scale(0.95);
+            }
+            60% {
+                opacity: 0.9;
+                transform: translateX(2px) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+        
+        .greeting-text {
+            opacity: 1;
+        }
+        
+        .greeting-text p {
+            transform: rotate(-3deg) translateY(-10px) !important;
+        }
+        
+        .project-item:hover .project-arrow-icon {
+            display: block;
+        }
+        
+        .project-item:hover {
+            padding-left: 16px !important;
+            padding-right: 24px !important;
+            gap: 16px !important;
+            background-color: #F3F4F6 !important;
+        }
+        
+        /* Tab content transitions */
+        .tab-content {
+            opacity: 1;
+            transition: opacity 0.2s ease-out;
+        }
+        
+        .tab-content.hidden {
+            opacity: 0;
+        }
+        
+        /* Scroll-triggered animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .scroll-animate.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered animation delays */
+        .scroll-animate.delay-1 { transition-delay: 0.1s; }
+        .scroll-animate.delay-2 { transition-delay: 0.2s; }
+        .scroll-animate.delay-3 { transition-delay: 0.3s; }
+        .scroll-animate.delay-4 { transition-delay: 0.4s; }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50" style="background-image: radial-gradient(circle at 1px 1px, rgba(156, 163, 175, 0.25) 1px, transparent 0); background-size: 40px 40px; position: relative;">
+    <!-- Dark Mode Toggle -->
+    <div class="fixed top-6 right-6 z-50">
+        <button id="dark-mode-toggle" class="bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200">
+            <svg id="sun-icon" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <svg id="moon-icon" class="w-5 h-5 text-gray-600 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <div class="max-w-[600px] mx-auto px-4 py-8" style="margin-top: 80px; position: relative; z-index: 1;">
+        <div class="space-y-6">
+            <!-- Profile Section -->
+            <div class="scroll-animate flex items-start" style="gap: 8px;">
+                <!-- Avatar -->
+                <div class="flex-shrink-0">
+                    <div class="avatar-container">
+                        <img alt="Kiet's Avatar" class="avatar-image" id="avatar-image" src="images/avatar.svg" />
+                    </div>
+                </div>
+
+                <!-- Greeting Text -->
+                <div class="flex-1 greeting-text" >
+                    <div>
+                        <p class="font-caveat" style="font-size: 24px; line-height: 22px; transform: rotate(-2deg) translateY(-13px) !important;">
+                            <span class="text-gray-700">I'm </span>
+                            <span class="font-bold underline decoration-solid underline-offset-2 text-gray-900">Kiet</span>
+                            <span class="text-gray-700">, nice to<br>meet you! 👋</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Info -->
+            <div class="scroll-animate delay-1 space-y-4" style="margin-top: 32px;">
+                <h1 class="font-inter font-semibold text-3xl leading-tight tracking-tight text-gray-900">
+                    Systems-minded product designer with 3+ years of experience.
+                </h1>
+                
+                <div style="font-size: 16px;" class="flex items-center gap-2">
+                    <img src="images/airmiles.png" alt="Air Miles" class="w-6 h-6 self-center" id="airmiles-logo" />
+                    <span class="text-gray-900">UX Designer at <a 
+                        href="https://www.airmiles.ca/" 
+                        class="underline decoration-gray-400 hover:decoration-gray-600 transition-colors text-gray-900"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Air Miles
+                    </a></span>
+                    
+                    <span class="text-gray-500"> • </span>
+                    <span class="text-gray-500">Previously Sr. UX Designer at <a 
+                        href="https://www.gs1ca.org/" 
+                        class="underline decoration-gray-200 hover:decoration-gray-400 transition-colors text-gray-500"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        GS1 Canada
+                    </a></span>
+                    
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="scroll-animate delay-2 pt-4">
+                <div class="flex gap-1 items-start justify-start">
+                    <button class="bg-gray-900 text-white font-inter font-medium text-[14px] leading-[24px] px-[16px] py-[4px] rounded-[12px] hover:pl-[16px] hover:pr-[12px] transition-all duration-300 ease-out group flex items-center justify-center w-fit">
+                        <span>Get in touch</span>
+                        <svg class="btn-icon h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                    <button class="border border-gray-300 border-solid bg-transparent text-gray-900 font-inter font-medium text-[14px] leading-[24px] px-[16px] py-[4px] rounded-[12px] hover:pl-[16px] hover:pr-[12px] transition-all duration-300 ease-out group flex items-center justify-center w-fit">
+                        <span>View Resume</span>
+                        <svg class="btn-icon h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Section -->
+            <div class="scroll-animate delay-3" style="margin-top: 60px;">
+                <div class="flex flex-wrap gap-2 items-center justify-start">
+                    <!-- Selected Work Tab -->
+                    <button id="selected-work-tab" class="tab-button active flex gap-1 items-center px-0 py-1 cursor-pointer transition-colors">
+                        <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path>
+                        </svg>
+                        <span class="font-inter font-semibold text-[14px] leading-[20px] text-gray-900">Selected Work</span>
+                    </button>
+
+                    <!-- Separator -->
+                    <div class="text-gray-500 text-[16px] leading-[28px] font-inter font-normal">/</div>
+
+                    <!-- Playground Tab -->
+                    <button id="playground-tab" class="tab-button flex gap-1 items-center px-0 py-1 cursor-pointer transition-colors">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                        </svg>
+                        <span class="font-inter font-medium text-[14px] leading-[20px] text-gray-500">Playground</span>
+                    </button>
+
+                    <!-- Divider Line -->
+                    <div class="flex-1 border-b border-gray-200"></div>
+                </div>
+                
+                <!-- Tab Content -->
+                <div id="tab-content" class="scroll-animate delay-4" style="margin-top: 20px;">
+                    <!-- Selected Work Content (Default) -->
+                    <div id="selected-work-content" class="tab-content">
+                        <!-- Portfolio Project Items Container -->
+                        <div class="flex flex-col gap-[8px] items-start justify-start min-w-[240px]">
+                            <!-- Project Item 1 (Default State) -->
+                            <a href="project.html" class="project-item group flex items-center justify-start px-0 py-[12px] relative rounded-[8px] cursor-pointer transition-all duration-300 ease-out" 
+                                 style="background-color: transparent;"
+                                 onmouseover="showProjectPreview(event, this);"
+                                 onmouseout="hideProjectPreview();">
+                                <!-- Arrow Icon (Hidden by default) -->
+                                <div class="project-arrow-icon w-3 h-3 shrink-0">
+                                    <svg class="w-3 h-3 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                
+                                <div class="flex flex-row items-center self-stretch">
+                                    <div class="flex flex-col h-full items-start justify-start relative shrink-0">
+                                        <!-- Project Title -->
+                                        <div class="font-inter font-medium text-[16px] leading-[24px] text-gray-900">
+                                            Product data syndication for suppliers
+                                        </div>
+                                        
+                                        <!-- Project Details -->
+                                        <div class="flex gap-[4px] items-center justify-start relative shrink-0">
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                GS1 Canada
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                —
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                2024
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            
+                            <!-- Project Item 2 (Default State) -->
+                            <div class="project-item group flex items-center justify-start px-0 py-[12px] relative rounded-[8px] cursor-pointer transition-all duration-300 ease-out"
+                                 style="background-color: transparent;"
+                                 onmouseover="showProjectPreview(event, this);"
+                                 onmouseout="hideProjectPreview();">
+                                <!-- Arrow Icon (Hidden by default) -->
+                                <div class="project-arrow-icon w-3 h-3 shrink-0">
+                                    <svg class="w-3 h-3 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                
+                                <div class="flex flex-row items-center self-stretch">
+                                    <div class="flex flex-col h-full items-start justify-start relative shrink-0">
+                                        <!-- Project Title -->
+                                        <div class="font-inter font-medium text-[16px] leading-[24px] text-gray-900">
+                                            Access distributed product contents
+                                        </div>
+                                        
+                                        <!-- Project Details -->
+                                        <div class="flex gap-[4px] items-center justify-start relative shrink-0">
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                GS1 Canada
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                —
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                2023
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Project Item 3 (Default State) -->
+                            <div class="project-item group flex items-center justify-start px-0 py-[12px] relative rounded-[8px] cursor-pointer transition-all duration-300 ease-out"
+                                 style="background-color: transparent;"
+                                 onmouseover="showProjectPreview(event, this);"
+                                 onmouseout="hideProjectPreview();">
+                                <!-- Arrow Icon (Hidden by default) -->
+                                <div class="project-arrow-icon w-3 h-3 shrink-0">
+                                    <svg class="w-3 h-3 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                
+                                <div class="flex flex-row items-center self-stretch">
+                                    <div class="flex flex-col h-full items-start justify-start relative shrink-0">
+                                        <!-- Project Title -->
+                                        <div class="font-inter font-medium text-[16px] leading-[24px] text-gray-900">
+                                            Design System UI library
+                                        </div>
+                                        
+                                        <!-- Project Details -->
+                                        <div class="flex gap-[4px] items-center justify-start relative shrink-0">
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                GS1 Canada
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                —
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                2023
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Project Item 4 (Default State) -->
+                            <div class="project-item group flex items-center justify-start px-0 py-[12px] relative rounded-[8px] cursor-pointer transition-all duration-300 ease-out"
+                                 style="background-color: transparent;"
+                                 onmouseover="showProjectPreview(event, this);"
+                                 onmouseout="hideProjectPreview();">
+                                <!-- Arrow Icon (Hidden by default) -->
+                                <div class="project-arrow-icon w-3 h-3 shrink-0">
+                                    <svg class="w-3 h-3 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                
+                                <div class="flex flex-row items-center self-stretch">
+                                    <div class="flex flex-col h-full items-start justify-start relative shrink-0">
+                                        <!-- Project Title -->
+                                        <div class="font-inter font-medium text-[16px] leading-[24px] text-gray-900">
+                                            Unified platform vision for leadership buy-in
+                                        </div>
+                                        
+                                        <!-- Project Details -->
+                                        <div class="flex gap-[4px] items-center justify-start relative shrink-0">
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                GS1 Canada
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                —
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                2022
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Project Item 5 (Default State) -->
+                            <div class="project-item group flex items-center justify-start px-0 py-[12px] relative rounded-[8px] cursor-pointer transition-all duration-300 ease-out"
+                                 style="background-color: transparent;"
+                                 onmouseover="showProjectPreview(event, this);"
+                                 onmouseout="hideProjectPreview();">
+                                <!-- Arrow Icon (Hidden by default) -->
+                                <div class="project-arrow-icon w-3 h-3 shrink-0">
+                                    <svg class="w-3 h-3 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                
+                                <div class="flex flex-row items-center self-stretch">
+                                    <div class="flex flex-col h-full items-start justify-start relative shrink-0">
+                                        <!-- Project Title -->
+                                        <div class="font-inter font-medium text-[16px] leading-[24px] text-gray-900">
+                                            Revamped Dashboard tool
+                                        </div>
+                                        
+                                        <!-- Project Details -->
+                                        <div class="flex gap-[4px] items-center justify-start relative shrink-0">
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                GS1 Canada
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                —
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                2021
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Playground Content (Hidden by default) -->
+                    <div id="playground-content" class="tab-content hidden">
+                        <!-- Playground Project Items Container -->
+                        <div class="flex flex-col gap-[8px] items-start justify-start min-w-[240px]">
+                            <!-- Playground Project Item 1 -->
+                            <div class="project-item group flex items-center justify-start px-0 py-[12px] relative rounded-[8px] cursor-pointer transition-all duration-300 ease-out"
+                                 style="background-color: transparent;"
+                                 onmouseover="showProjectPreview(event, this);"
+                                 onmouseout="hideProjectPreview();">
+                                <!-- Arrow Icon (Hidden by default) -->
+                                <div class="project-arrow-icon w-3 h-3 shrink-0">
+                                    <svg class="w-3 h-3 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                
+                                <div class="flex flex-row items-center self-stretch">
+                                    <div class="flex flex-col h-full items-start justify-start relative shrink-0">
+                                        <!-- Project Title -->
+                                        <div class="font-inter font-medium text-[16px] leading-[24px] text-gray-900">
+                                            Interactive Design System Playground
+                                        </div>
+                                        
+                                        <!-- Project Details -->
+                                        <div class="flex gap-[4px] items-center justify-start relative shrink-0">
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                2024
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Playground Project Item 2 -->
+                            <div class="project-item group flex items-center justify-start px-0 py-[12px] relative rounded-[8px] cursor-pointer transition-all duration-300 ease-out"
+                                 style="background-color: transparent;"
+                                 onmouseover="showProjectPreview(event, this);"
+                                 onmouseout="hideProjectPreview();">
+                                <!-- Arrow Icon (Hidden by default) -->
+                                <div class="project-arrow-icon w-3 h-3 shrink-0">
+                                    <svg class="w-3 h-3 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                
+                                <div class="flex flex-row items-center self-stretch">
+                                    <div class="flex flex-col h-full items-start justify-start relative shrink-0">
+                                        <!-- Project Title -->
+                                        <div class="font-inter font-medium text-[16px] leading-[24px] text-gray-900">
+                                            Micro-interaction Experiments
+                                        </div>
+                                        
+                                        <!-- Project Details -->
+                                        <div class="flex gap-[4px] items-center justify-start relative shrink-0">
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                Side Project
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                —
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                2024
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Playground Project Item 3 -->
+                            <div class="project-item group flex items-center justify-start px-0 py-[12px] relative rounded-[8px] cursor-pointer transition-all duration-300 ease-out"
+                                 style="background-color: transparent;"
+                                 onmouseover="showProjectPreview(event, this);"
+                                 onmouseout="hideProjectPreview();">
+                                <!-- Arrow Icon (Hidden by default) -->
+                                <div class="project-arrow-icon w-3 h-3 shrink-0">
+                                    <svg class="w-3 h-3 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                
+                                <div class="flex flex-row items-center self-stretch">
+                                    <div class="flex flex-col h-full items-start justify-start relative shrink-0">
+                                        <!-- Project Title -->
+                                        <div class="font-inter font-medium text-[16px] leading-[24px] text-gray-900">
+                                            Voice Interface Prototype
+                                        </div>
+                                        
+                                        <!-- Project Details -->
+                                        <div class="flex gap-[4px] items-center justify-start relative shrink-0">
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                Experiment
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                —
+                                            </div>
+                                            <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-500">
+                                                2024
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials Section -->
+        <div class="scroll-animate" style="margin-top: 40px;">
+            <!-- Section Title -->
+            <div class="flex gap-1 items-center px-0 py-1">
+                <!-- Quote Icon -->
+                <svg class="w-4 h-4 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
+                </svg>
+                
+                <!-- Testimonials Text -->
+                <span class="font-inter font-semibold text-[14px] leading-[20px] text-gray-900">Testimonials</span>
+                
+                <!-- Divider -->
+                <div class="flex-1 border-b border-gray-200"></div>
+            </div>
+            
+            <!-- Testimonials Content -->
+            <div class="mt-6">
+                <!-- Testimonial Cards Container -->
+                <div id="testimonial-container" class="relative" style="margin-bottom: 60px;">
+                    <!-- Left Arrow -->
+                    <button id="prev-testimonial" class="absolute left-0 -translate-x-16 p-[8px] rounded-[8px] hover:bg-gray-100 transition-colors z-10" style="top: 50%; transform: translateY(-50%) translateX(-64px);">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Right Arrow -->
+                    <button id="next-testimonial" class="absolute right-0 translate-x-16 p-[8px] rounded-[8px] hover:bg-gray-100 transition-colors z-10" style="top: 50%; transform: translateY(-50%) translateX(64px);">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Testimonial Card 1 (Active) -->
+                    <div id="testimonial-1" class="testimonial-card bg-gray-100 rounded-[24px] p-[40px] flex flex-col opacity-100 transition-opacity duration-[400ms] ease-out">
+                    <!-- Testimonial Text -->
+                    <div class="font-inter font-normal text-[14px] leading-[28px] text-gray-600">
+                        <p class="mb-0">I had the pleasure of working with Kiet on several key initiatives driving the implementation of global supply chain standards through the design and development of a new PIM/DAM platform.</p>
+                        <p class="mb-0" style="margin-top: 16px;">
+                            Kiet was able to successfully design challenging and complex applications with his inspiring vision, which was achieved through clearly defining the users' states and needs. His attention to detail and understanding of accessibility needs further enhanced the quality and scalability of his designs. This enabled me to have great trust in his designs and work.
+                        </p>
+                        <p class="mb-0" style="margin-top: 16px;">
+                            Moreover, Kiet's excellent storytelling and communication skills helped stakeholders understand the "why" behind designs. Kiet's expertise in UX design and leadership would be an invaluable asset to any company.
+                        </p>
+                    </div>
+                        
+                        <!-- Author Info -->
+                        <div class="flex gap-[12px] items-start" style="margin-top: 40px;">
+                            <!-- Avatar -->
+                            <div class="relative shrink-0 w-10 h-10">
+                                <img alt="Tiffany Soo" class="w-10 h-10 rounded-full object-cover" src="images/tiffany_soo_thumbnail.png" />
+                            </div>
+                            
+                            <!-- Name and Title -->
+                            <div class="flex flex-col justify-center">
+                                <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-900">
+                                    Tiffany Soo
+                                </div>
+                                <div class="font-inter font-normal text-[12px] leading-[20px] text-gray-500">
+                                    Product Manager, GS1 Canada
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial Card 2 (Hidden) -->
+                    <div id="testimonial-2" class="testimonial-card bg-gray-100 rounded-[24px] p-[40px] flex flex-col opacity-0 pointer-events-none transition-opacity duration-[400ms] ease-out" style="display: none;">
+                    <!-- Testimonial Text -->
+                    <div class="font-inter font-normal text-[14px] leading-[28px] text-gray-600">
+                        <p class="mb-0">Kiet has been an invaluable partner in UX team's journey to establish a robust UX discipline at GS1 Canada. Together, we faced the challenge of transforming a non-existent UX presence into a forming discipline and a strategic practice. Kiet's support, strategic thinking, and resilience were crucial to this effort, and his contributions have been fundamental to UX team's success.</p>
+                        <p class="mb-0" style="margin-top: 16px;">
+                            I greatly admire Kiet's caring and empathetic nature. He has a unique ability to push his team towards doing what's right for both users and business needs while maintaining a supportive and collaborative environment. Kiet is not just a talented UX designer but also a true team player who brings out the best in those around him.
+                        </p>
+                    </div>
+                        
+                        <!-- Author Info -->
+                        <div class="flex gap-[12px] items-start" style="margin-top: 40px;">
+                            <!-- Avatar -->
+                            <div class="relative shrink-0 w-10 h-10">
+                                <img alt="Raj Das" class="w-10 h-10 rounded-full object-cover" src="images/raj_das_thumbnail.png" />
+                            </div>
+                            
+                            <!-- Name and Title -->
+                            <div class="flex flex-col justify-center">
+                                <div class="font-inter font-medium text-[12px] leading-[20px] text-gray-900">
+                                    Raj Das
+                                </div>
+                                <div class="font-inter font-normal text-[12px] leading-[20px] text-gray-500">
+                                    UX Practice Lead, GS1 Canada
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- About Me Section -->
+        <div class="scroll-animate delay-1">
+            <!-- Section Title -->
+            <div class="flex gap-1 items-center px-0 py-1">
+                <!-- User Icon -->
+                
+                
+                <!-- About Me Text -->
+                <span class="font-inter font-semibold text-[14px] leading-[20px] text-gray-900">Hi, I'm Kiet</span>
+                
+                <!-- Divider -->
+                <div class="flex-1 border-b border-gray-200"></div>
+            </div>
+            
+            <!-- About Me Content -->
+            <div class="mt-[24px] space-y-6">
+                <!-- Profile Image -->
+                <div class="mb-6">
+                    <img src="images/kiet_thumbnail.png" alt="Kiet Bui" class="w-[80px] h-[80px] object-cover rounded-full" />
+                </div>
+                
+                <!-- First Paragraph -->
+                <p class="font-inter text-[20px] leading-[32px] text-gray-900 font-medium mb-4">
+                    I love designs that are understated and thoughtful, and admire products that don't trade substance for hype.
+                </p>
+                
+                <!-- Remaining Text Content -->
+                <div class="space-y-6">
+                    <p class="font-inter text-[16px] leading-[28px] text-gray-700 font-normal">
+                        At GS1 Canada, I took on high-stakes problems with strategic thinking and pragmatic design, unifying core products that helped 40,000+ businesses manage and exchange product data. Today at Air Miles, I help make everyday rewards more digitally accessible and valuable for collectors.</p>
+                    </p>
+                    <!--<p class="font-inter text-[16px] leading-[28px] text-gray-700 font-normal">
+                        Today at Air Miles, I design digital experiences that make everyday rewards more accessible and engaging for millions of Canadians.                    </p>-->
+                </div>
+                
+                <!-- Organic Image Layout -->
+                <div class="relative mt-24" style="margin-left: -30%; margin-right: -30%; width: 160%; height: 800px;">
+                    <!-- Image 1 - dish1 - top-left, offset right 80px -->
+                    <div class="group absolute top-20 left-8 w-[580px] h-[580px] z-10 hover:z-50 transition-all duration-300 ease-out" style="transform: rotate(-2deg);">
+                        <div class="slideshow-container w-full h-full relative overflow-hidden hover:scale-110 transition-all duration-300 ease-out" style="border-radius: 16px; border: 12px solid #f3f4f6; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);">
+                            <img src="images/dish1.jpg" alt="Dish 1" class="slideshow-image w-full h-full object-cover opacity-100" />
+                            <img src="images/dish2.jpg" alt="Dish 2" class="slideshow-image w-full h-full object-cover opacity-0 absolute top-0 left-0" />
+                            <img src="images/dish3.jpg" alt="Dish 3" class="slideshow-image w-full h-full object-cover opacity-0 absolute top-0 left-0" />
+                            
+                            <!-- Navigation arrows -->
+                            <button id="prev-dish" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-all duration-200 opacity-0 group-hover:opacity-100">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <button id="next-dish" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-all duration-200 opacity-0 group-hover:opacity-100">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <!-- Caption for Image 1 -->
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out delay-150 pointer-events-none" style="width: 80%; z-index: 10;">
+                            <div class="bg-black bg-opacity-75 rounded-lg px-4 py-3 shadow-lg w-full">
+                                <p class="text-[13px] text-white text-center">I like to learn about different cultures and cuisines through cooking</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Image 2 - kiet - top-right, offset up 40px, left 20px, rotate right 4 more degrees -->
+                    <div class="group absolute top-32 right-8 w-[350px] h-[525px] z-30 hover:z-50 transition-all duration-300 ease-out" style="transform: rotate(7.5deg);">
+                        <img src="images/kiet.webp" alt="Kiet" class="w-full h-full object-cover hover:scale-110 transition-all duration-300 ease-out" style="border-radius: 16px; border: 12px solid #f3f4f6; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);" />
+                        <!-- Caption for Image 2 -->
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out delay-150 pointer-events-none" style="width: 80%; z-index: 10;">
+                            <div class="bg-black bg-opacity-75 rounded-lg px-4 py-3 shadow-lg w-full">
+                                <p class="text-[13px] text-white text-center flex items-center justify-center gap-2">
+                                    <svg width="16" height="12" viewBox="0 0 16 12" class="inline-block">
+                                        <rect width="16" height="12" fill="#DA020E"/>
+                                        <polygon points="8,2 7.2,4.5 4.5,4.5 6.4,6 5.6,8.5 8,7 10.4,8.5 9.6,6 11.5,4.5 8.8,4.5" fill="#FFCD00"/>
+                                    </svg>
+                                    Vietnamese born and raised
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Image 3 - games - bottom-right, offset up 100px, left 80px, rotate left 12 degrees -->
+                    <div class="group absolute bottom-0 right-40 w-[500px] h-[333px] z-40 hover:z-50 transition-all duration-300 ease-out" style="transform: rotate(0deg);">
+                        <img src="images/games.jpg" alt="Games" class="w-full h-full object-cover hover:scale-110 transition-all duration-300 ease-out" style="border-radius: 16px; border: 12px solid #f3f4f6; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);" />
+                        <!-- Caption for Image 3 -->
+                        <div class="absolute top-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out delay-150 pointer-events-none" style="width: 80%; z-index: 10;">
+                            <div class="bg-black bg-opacity-75 rounded-lg px-4 py-3 shadow-lg w-full">
+                                <p class="text-[13px] text-white text-center">Obssessed with collecting rare, limited edition consoles</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    /* Hover effects for image interactions */
+                    .group:hover img {
+                        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.1);
+                    }
+                    
+                    /* Instant fade-out for captions */
+                    .group .absolute {
+                        transition: opacity 0.3s ease-out 0.15s;
+                    }
+                    
+                    .group:not(:hover) .absolute {
+                        transition: opacity 0s;
+                    }
+                    
+                    .group.muted img {
+                        filter: saturate(0.5);
+                        transform: scale(0.8);
+                        transition: all 0.3s ease-out;
+                    }
+                    
+                    .group.muted .slideshow-container {
+                        filter: saturate(0.5);
+                        transform: scale(0.8);
+                        transition: all 0.3s ease-out;
+                    }
+                    
+                    .group.muted .slideshow-container .slideshow-image {
+                        transform: scale(1.25);
+                    }
+                    
+                    /* Slideshow transitions */
+                    .slideshow-image {
+                        transition: opacity 0s;
+                    }
+                </style>
+                
+                <script>
+                    // Handle image hover effects and slideshow
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const imageGroups = document.querySelectorAll('.group');
+                        let slideshowInterval;
+                        
+                        imageGroups.forEach(group => {
+                            group.addEventListener('mouseenter', function() {
+                                // Add muted class to all other groups
+                                imageGroups.forEach(otherGroup => {
+                                    if (otherGroup !== this) {
+                                        otherGroup.classList.add('muted');
+                                    }
+                                });
+                                
+                                // Start slideshow for the first group (dish images)
+                                if (this === imageGroups[0]) {
+                                    startSlideshow(this);
+                                }
+                                
+                                // Alternative: Check if this group has slideshow container
+                                const slideshowContainer = this.querySelector('.slideshow-container');
+                                if (slideshowContainer) {
+                                    startSlideshow(this);
+                                }
+                            });
+                            
+                            group.addEventListener('mouseleave', function() {
+                                // Remove muted class from all groups
+                                imageGroups.forEach(otherGroup => {
+                                    otherGroup.classList.remove('muted');
+                                });
+                                
+                                // Stop slideshow
+                                stopSlideshow();
+                            });
+                        });
+                        
+                        function startSlideshow(group) {
+                            const slideshowContainer = group.querySelector('.slideshow-container');
+                            if (!slideshowContainer) return;
+                            
+                            const images = slideshowContainer.querySelectorAll('.slideshow-image');
+                            if (images.length === 0) return;
+                            
+                            let currentIndex = 0;
+                            
+                            // Add click handlers for navigation
+                            const prevButton = slideshowContainer.querySelector('#prev-dish');
+                            const nextButton = slideshowContainer.querySelector('#next-dish');
+                            
+                            if (prevButton) {
+                                prevButton.addEventListener('click', (e) => {
+                                    e.stopPropagation();
+                                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                                    showImage(images, currentIndex);
+                                });
+                            }
+                            
+                            if (nextButton) {
+                                nextButton.addEventListener('click', (e) => {
+                                    e.stopPropagation();
+                                    currentIndex = (currentIndex + 1) % images.length;
+                                    showImage(images, currentIndex);
+                                });
+                            }
+                        }
+                        
+                        function showImage(images, index) {
+                            images.forEach((img, i) => {
+                                img.style.transition = 'opacity 0s';
+                                img.style.opacity = i === index ? '1' : '0';
+                            });
+                        }
+                        
+                        function stopSlideshow() {
+                            if (slideshowInterval) {
+                                clearInterval(slideshowInterval);
+                                slideshowInterval = null;
+                            }
+                            
+                            // Reset to first image
+                            const firstGroup = imageGroups[0];
+                            if (firstGroup) {
+                                const slideshowContainer = firstGroup.querySelector('.slideshow-container');
+                                if (slideshowContainer) {
+                                    const images = slideshowContainer.querySelectorAll('.slideshow-image');
+                                    images.forEach((img, index) => {
+                                        img.style.opacity = index === 0 ? '1' : '0';
+                                    });
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+            
+            <!-- Additional paragraph -->
+            <div class="mt-24">
+                <p class="font-inter text-[16px] leading-[28px] text-gray-700 font-normal">
+                    One day, I'd love to run a humble eatery (like something out of Midnight Diner) but until then, I'm taking product and design as far as I can ✌️
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="max-w-[600px] mx-auto px-4 py-8" style="margin-top: 80px; margin-bottom: 24px;">
+        <div class="flex justify-start items-center gap-10">
+            <p class="text-[14px] text-gray-700">Kiet Bui © 2025  •  Built with Cursor</p>
+            <a href="https://linkedin.com/in/kietbui" class="text-[14px] text-gray-700 hover:text-gray-900 transition-colors">connect on LinkedIn</a>
+        </div>
+    </footer>
+
+    <!-- Project Preview Image -->
+    <div id="project-preview" class="fixed pointer-events-none z-50 opacity-0 transition-opacity duration-200">
+        <div class="w-[500px] h-[312.5px] bg-gray-100 rounded-lg shadow-lg overflow-hidden">
+            <img id="preview-image" class="w-full h-full object-cover" src="" alt="Project Preview" style="display: none;">
+            <div id="preview-placeholder" class="w-full h-full flex items-center justify-center">
+                <span class="text-gray-500 text-sm">Project Preview</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        // Scroll-triggered animations with position-based logic
+        function initScrollAnimations() {
+            const scrollAnimateElements = document.querySelectorAll('.scroll-animate');
+            const currentScrollY = window.pageYOffset;
+            const windowHeight = window.innerHeight;
+            
+            console.log('Current scroll position:', currentScrollY);
+            
+            // Get all section positions and sort them
+            const sectionPositions = [];
+            scrollAnimateElements.forEach((el, index) => {
+                const rect = el.getBoundingClientRect();
+                const absoluteTop = rect.top + currentScrollY;
+                sectionPositions.push({
+                    element: el,
+                    top: absoluteTop,
+                    index: index
+                });
+            });
+            
+            // Sort by position (top to bottom)
+            sectionPositions.sort((a, b) => a.top - b.top);
+            
+            // Find the current section based on scroll position
+            let currentSectionIndex = -1;
+            for (let i = 0; i < sectionPositions.length; i++) {
+                if (currentScrollY >= sectionPositions[i].top - windowHeight * 0.5) {
+                    currentSectionIndex = i;
+                } else {
+                    break;
+                }
+            }
+            
+            console.log('Current section index:', currentSectionIndex);
+            
+            // Animate all sections up to and including the current section
+            sectionPositions.forEach((section, index) => {
+                if (index <= currentSectionIndex) {
+                    // This section should be animated
+                    section.element.classList.add('animate-in');
+                    section.element.setAttribute('data-animated', 'true');
+                    console.log('Position-based animated section:', section.element, 'index:', index);
+                } else {
+                    // This section should not be animated yet
+                    console.log('Section not yet reached:', section.element, 'index:', index);
+                }
+            });
+            
+            // Set up observer for remaining sections
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.hasAttribute('data-animated')) {
+                        entry.target.classList.add('animate-in');
+                        entry.target.setAttribute('data-animated', 'true');
+                        observer.unobserve(entry.target);
+                        console.log('Scroll-triggered animated element:', entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            // Only observe sections that haven't been animated yet
+            sectionPositions.forEach((section, index) => {
+                if (index > currentSectionIndex && !section.element.hasAttribute('data-animated')) {
+                    observer.observe(section.element);
+                    console.log('Observing future section:', section.element, 'index:', index);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize scroll animations
+            initScrollAnimations();
+            
+            const selectedWorkTab = document.getElementById('selected-work-tab');
+            const playgroundTab = document.getElementById('playground-tab');
+            const selectedWorkContent = document.getElementById('selected-work-content');
+            const playgroundContent = document.getElementById('playground-content');
+            
+            function switchToTab(activeTab, inactiveTab, activeContent, inactiveContent) {
+                // Remove active class from inactive tab
+                inactiveTab.classList.remove('active');
+                inactiveTab.querySelector('svg').classList.remove('text-gray-900');
+                inactiveTab.querySelector('svg').classList.add('text-gray-500');
+                inactiveTab.querySelector('span').classList.remove('text-gray-900', 'font-semibold');
+                inactiveTab.querySelector('span').classList.add('text-gray-500', 'font-medium');
+                
+                // Add active class to active tab
+                activeTab.classList.add('active');
+                activeTab.querySelector('svg').classList.remove('text-gray-500');
+                activeTab.querySelector('svg').classList.add('text-gray-900');
+                activeTab.querySelector('span').classList.remove('text-gray-500', 'font-medium');
+                activeTab.querySelector('span').classList.add('text-gray-900', 'font-semibold');
+                
+                // Animate content transition
+                if (inactiveContent.classList.contains('hidden')) {
+                    // If inactive content is already hidden, just show active content
+                    activeContent.classList.remove('hidden');
+                } else {
+                    // Add transition styles
+                    inactiveContent.style.transition = 'opacity 0.2s ease-out';
+                    activeContent.style.transition = 'opacity 0.2s ease-out';
+                    
+                    // Fade out inactive content
+                    inactiveContent.style.opacity = '0';
+                    
+                    // Wait for fade out, then switch content
+                    setTimeout(() => {
+                        inactiveContent.classList.add('hidden');
+                        activeContent.classList.remove('hidden');
+                        
+                        // Fade in active content
+                        setTimeout(() => {
+                            activeContent.style.opacity = '1';
+                        }, 10);
+                    }, 200);
+                }
+            }
+            
+            // Add click event listeners
+            selectedWorkTab.addEventListener('click', function() {
+                switchToTab(selectedWorkTab, playgroundTab, selectedWorkContent, playgroundContent);
+            });
+            
+            playgroundTab.addEventListener('click', function() {
+                switchToTab(playgroundTab, selectedWorkTab, playgroundContent, selectedWorkContent);
+            });
+            
+            console.log('Portfolio loaded successfully!');
+        });
+
+        // Project preview functionality
+        function showProjectPreview(event, element) {
+            const preview = document.getElementById('project-preview');
+            const previewImage = document.getElementById('preview-image');
+            const previewPlaceholder = document.getElementById('preview-placeholder');
+            const projectTitleElement = element.querySelector('div.font-inter.font-medium');
+            const projectTitle = projectTitleElement ? projectTitleElement.textContent.trim() : '';
+            
+            // Clear any existing slideshow interval
+            if (window.currentSlideshowInterval) {
+                clearInterval(window.currentSlideshowInterval);
+                window.currentSlideshowInterval = null;
+            }
+            
+            console.log('Project title:', projectTitle); // Debug log
+            
+            // Simple project image mapping
+            const projectImages = {
+                'Access distributed product contents': [
+                    'images/content_access_thumb1.png',
+                    'images/content_access_thumb2.png'
+                ],
+                'Design System UI library': [
+                    'images/designsystem_thumb1.png',
+                    'images/designsystem_thumb2.png'
+                ]
+            };
+            
+            const imageUrls = projectImages[projectTitle];
+            console.log('Image URLs:', imageUrls); // Debug log
+            
+            if (imageUrls && Array.isArray(imageUrls)) {
+                // Simple slideshow logic
+                let currentIndex = 0;
+                
+                function showImage(index) {
+                    const imageUrl = imageUrls[index];
+                    console.log('Showing image:', imageUrl); // Debug log
+                    
+                    previewImage.src = imageUrl;
+                    previewImage.onload = function() {
+                        // Calculate dimensions
+                        const maxWidth = 550;
+                        const maxHeight = 450;
+                        const imageAspectRatio = this.naturalWidth / this.naturalHeight;
+                        
+                        let width, height;
+                        if (this.naturalWidth / maxWidth > this.naturalHeight / maxHeight) {
+                            width = maxWidth;
+                            height = width / imageAspectRatio;
+                        } else {
+                            height = maxHeight;
+                            width = height * imageAspectRatio;
+                        }
+                        
+                        // Update container
+                        const container = preview.querySelector('div');
+                        container.style.width = width + 'px';
+                        container.style.height = height + 'px';
+                        
+                        previewImage.style.width = '100%';
+                        previewImage.style.height = '100%';
+                        previewImage.style.objectFit = 'contain';
+                        previewImage.style.display = 'block';
+                        previewPlaceholder.style.display = 'none';
+                    };
+                }
+                
+                // Show first image immediately
+                showImage(0);
+                
+                // Start slideshow
+                window.currentSlideshowInterval = setInterval(function() {
+                    currentIndex = (currentIndex + 1) % imageUrls.length;
+                    showImage(currentIndex);
+                }, 2000);
+                
+            } else {
+                // Show placeholder for projects without images
+                previewPlaceholder.innerHTML = `<span class="text-gray-500 text-sm">${projectTitle}</span>`;
+                previewPlaceholder.style.display = 'flex';
+                previewImage.style.display = 'none';
+            }
+            
+            // Show preview
+            preview.style.opacity = '1';
+            
+            // Position preview near cursor
+            updatePreviewPosition(event);
+            
+            // Add mousemove listener to follow cursor
+            document.addEventListener('mousemove', updatePreviewPosition);
+        }
+
+        function hideProjectPreview() {
+            const preview = document.getElementById('project-preview');
+            preview.style.opacity = '0';
+            
+            // Clear slideshow interval
+            if (window.projectSlideshowInterval) {
+                clearInterval(window.projectSlideshowInterval);
+                window.projectSlideshowInterval = null;
+            }
+            
+            // Remove mousemove listener
+            document.removeEventListener('mousemove', updatePreviewPosition);
+        }
+
+        function updatePreviewPosition(event) {
+            const preview = document.getElementById('project-preview');
+            const screenHeight = window.innerHeight;
+            const screenWidth = window.innerWidth;
+            
+            // Dynamic offset based on screen width
+            const baseOffset = 20; // Base distance from cursor
+            const largeScreenOffset = screenWidth > 1200 ? 80 : baseOffset; // 80px gap for screens > 1200px
+            const horizontalOffset = largeScreenOffset;
+            const verticalOffset = 20; // Smaller vertical offset to reduce gap
+            
+            // Get actual preview dimensions (they may vary based on image aspect ratio)
+            const previewRect = preview.getBoundingClientRect();
+            const previewHeight = previewRect.height > 0 ? previewRect.height : 312.5; // Fallback height
+            const previewWidth = previewRect.width > 0 ? previewRect.width : 500; // Fallback width
+            
+            console.log('Preview dimensions:', { width: previewWidth, height: previewHeight }); // Debug log
+            console.log('Cursor position:', { x: event.clientX, y: event.clientY }); // Debug log
+            
+            // Calculate horizontal position
+            let leftPosition = event.clientX + horizontalOffset;
+            
+            // Check if preview would go off the right edge of screen
+            if (leftPosition + previewWidth > screenWidth) {
+                // Position to the left of cursor instead
+                leftPosition = event.clientX - previewWidth - horizontalOffset;
+            }
+            
+            preview.style.left = leftPosition + 'px';
+            
+            // Calculate vertical position based on cursor position
+            let topPosition;
+            
+            // Check if cursor is in bottom half of screen
+            if (event.clientY > screenHeight / 2) {
+                // Position above cursor
+                topPosition = event.clientY - previewHeight - verticalOffset;
+                console.log('Positioning above cursor:', topPosition); // Debug log
+            } else {
+                // Position below cursor
+                topPosition = event.clientY + verticalOffset;
+                console.log('Positioning below cursor:', topPosition); // Debug log
+            }
+            
+            // Ensure preview doesn't go off the top or bottom of screen
+            if (topPosition < 10) {
+                topPosition = 10;
+                console.log('Adjusted to top edge:', topPosition); // Debug log
+            } else if (topPosition + previewHeight > screenHeight - 10) {
+                topPosition = screenHeight - previewHeight - 10;
+                console.log('Adjusted to bottom edge:', topPosition); // Debug log
+            }
+            
+            console.log('Final top position:', topPosition); // Debug log
+            preview.style.top = topPosition + 'px';
+        }
+
+        // Testimonial cycling functionality
+        let currentTestimonial = 1;
+        const totalTestimonials = 2;
+
+        function showTestimonial(index) {
+            // First fade out current testimonial
+            for (let i = 1; i <= totalTestimonials; i++) {
+                const testimonial = document.getElementById(`testimonial-${i}`);
+                if (i !== index) {
+                    testimonial.style.opacity = '0';
+                    testimonial.style.pointerEvents = 'none';
+                }
+            }
+            
+            // Wait for fade out, then show new testimonial
+            setTimeout(() => {
+                // Hide all testimonials
+                for (let i = 1; i <= totalTestimonials; i++) {
+                    const testimonial = document.getElementById(`testimonial-${i}`);
+                    if (i !== index) {
+                        testimonial.style.display = 'none';
+                    }
+                }
+                
+                // Show target testimonial
+                const targetTestimonial = document.getElementById(`testimonial-${index}`);
+                if (targetTestimonial) {
+                    targetTestimonial.style.display = 'block';
+                    // Force a reflow
+                    targetTestimonial.offsetHeight;
+                    // Fade in
+                    targetTestimonial.style.opacity = '1';
+                    targetTestimonial.style.pointerEvents = 'auto';
+                }
+            }, 200); // Half of the 400ms transition duration
+            
+            currentTestimonial = index;
+        }
+
+        function nextTestimonial() {
+            const next = currentTestimonial === totalTestimonials ? 1 : currentTestimonial + 1;
+            showTestimonial(next);
+        }
+
+        function prevTestimonial() {
+            const prev = currentTestimonial === 1 ? totalTestimonials : currentTestimonial - 1;
+            showTestimonial(prev);
+        }
+
+        // Dark mode functionality
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            
+            html.classList.toggle('dark');
+            
+            if (html.classList.contains('dark')) {
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+                localStorage.setItem('darkMode', 'enabled');
+                
+                // Apply dark mode styles directly
+                applyDarkModeStyles();
+            } else {
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+                localStorage.setItem('darkMode', 'disabled');
+                
+                // Remove dark mode styles
+                removeDarkModeStyles();
+            }
+        }
+
+        function applyDarkModeStyles() {
+            // Avatar styling - switch to dark mode avatar
+            const avatar = document.getElementById('avatar-image');
+            if (avatar) {
+                avatar.src = 'images/avatar-dark.svg';
+            }
+            
+            // Air Miles logo - switch to dark mode logo
+            const airmilesLogo = document.getElementById('airmiles-logo');
+            if (airmilesLogo) {
+                airmilesLogo.src = 'images/airmiles_dark.png';
+            }
+            
+            // Button styling
+            const primaryButton = document.querySelector('button.bg-gray-900');
+            if (primaryButton) {
+                primaryButton.style.backgroundColor = '#f9fafb';
+                primaryButton.style.color = '#111827';
+            }
+            
+            const secondaryButton = document.querySelector('button.border-gray-300');
+            if (secondaryButton) {
+                secondaryButton.style.borderColor = '#6b7280';
+                secondaryButton.style.color = '#f9fafb';
+            }
+            
+            // Tab underline - target both tab buttons
+            const selectedWorkTab = document.getElementById('selected-work-tab');
+            const playgroundTab = document.getElementById('playground-tab');
+            if (selectedWorkTab) {
+                selectedWorkTab.style.borderBottomColor = '#f9fafb';
+            }
+            if (playgroundTab) {
+                playgroundTab.style.borderBottomColor = '#f9fafb';
+            }
+            
+            // Project item hover background - add event listeners
+            const projectItems = document.querySelectorAll('.project-item');
+            projectItems.forEach(item => {
+                item.addEventListener('mouseover', function() {
+                    this.style.setProperty('background-color', '#374151', 'important');
+                    // Make arrow icon light
+                    const arrowIcon = this.querySelector('.project-arrow-icon svg');
+                    if (arrowIcon) {
+                        arrowIcon.style.color = '#f9fafb';
+                    }
+                });
+                item.addEventListener('mouseout', function() {
+                    this.style.setProperty('background-color', 'transparent', 'important');
+                    // Reset arrow icon color
+                    const arrowIcon = this.querySelector('.project-arrow-icon svg');
+                    if (arrowIcon) {
+                        arrowIcon.style.color = '';
+                    }
+                });
+            });
+            
+            // Testimonial switcher arrows - remove default background for dark mode
+            const testimonialArrows = document.querySelectorAll('#prev-testimonial, #next-testimonial');
+            testimonialArrows.forEach(arrow => {
+                // Remove default background for dark mode
+                arrow.style.backgroundColor = 'transparent';
+            });
+            
+            // Testimonial text colors
+            const testimonialTexts = document.querySelectorAll('.testimonial-card .font-inter.text-gray-600');
+            testimonialTexts.forEach(text => {
+                text.style.color = '#e5e7eb'; // gray-200
+            });
+        }
+
+        function removeDarkModeStyles() {
+            // Avatar styling - switch back to light mode avatar
+            const avatar = document.getElementById('avatar-image');
+            if (avatar) {
+                avatar.src = 'images/avatar.svg';
+            }
+            
+            // Air Miles logo - switch back to light mode logo
+            const airmilesLogo = document.getElementById('airmiles-logo');
+            if (airmilesLogo) {
+                airmilesLogo.src = 'images/airmiles.png';
+            }
+            
+            // Button styling
+            const primaryButton = document.querySelector('button.bg-gray-900');
+            if (primaryButton) {
+                primaryButton.style.backgroundColor = '';
+                primaryButton.style.color = '';
+            }
+            
+            const secondaryButton = document.querySelector('button.border-gray-300');
+            if (secondaryButton) {
+                secondaryButton.style.borderColor = '';
+                secondaryButton.style.color = '';
+            }
+            
+            // Tab underline - reset both tabs
+            const selectedWorkTab = document.getElementById('selected-work-tab');
+            const playgroundTab = document.getElementById('playground-tab');
+            if (selectedWorkTab) {
+                selectedWorkTab.style.borderBottomColor = '';
+            }
+            if (playgroundTab) {
+                playgroundTab.style.borderBottomColor = '';
+            }
+            
+            // Project item hover background - remove event listeners and reset
+            const projectItems = document.querySelectorAll('.project-item');
+            projectItems.forEach(item => {
+                // Remove existing event listeners by cloning the element
+                const newItem = item.cloneNode(true);
+                item.parentNode.replaceChild(newItem, item);
+            });
+            
+            // Testimonial switcher arrows - reset to original light mode styles
+            const testimonialArrows = document.querySelectorAll('#prev-testimonial, #next-testimonial');
+            testimonialArrows.forEach(arrow => {
+                arrow.style.backgroundColor = '';
+            });
+            
+            // Testimonial text colors - reset to light mode
+            const testimonialTexts = document.querySelectorAll('.testimonial-card .font-inter.text-gray-600');
+            testimonialTexts.forEach(text => {
+                text.style.color = ''; // Reset to CSS class color
+            });
+        }
+
+        // Initialize dark mode from localStorage
+        function initializeDarkMode() {
+            const darkMode = localStorage.getItem('darkMode');
+            const html = document.documentElement;
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            
+            if (darkMode === 'enabled') {
+                html.classList.add('dark');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+                applyDarkModeStyles();
+            } else {
+                html.classList.remove('dark');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+                removeDarkModeStyles();
+            }
+        }
+
+        // Add event listeners for testimonial controls
+        document.addEventListener('DOMContentLoaded', function() {
+            const nextBtn = document.getElementById('next-testimonial');
+            const prevBtn = document.getElementById('prev-testimonial');
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+            if (nextBtn) nextBtn.addEventListener('click', nextTestimonial);
+            if (prevBtn) prevBtn.addEventListener('click', prevTestimonial);
+            if (darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
+            
+            // Initialize dark mode
+            initializeDarkMode();
+            
+            // Restore scroll position when returning from project page
+            function restoreScrollPosition() {
+                const savedPosition = localStorage.getItem('scrollPosition');
+                if (savedPosition) {
+                    window.scrollTo(0, parseInt(savedPosition));
+                    localStorage.removeItem('scrollPosition'); // Clear after restoring
+                }
+            }
+            
+            // Restore scroll position on page load
+            restoreScrollPosition();
+            
+            // Set arrow positions based on first testimonial card height
+            function setArrowPositions() {
+                const firstCard = document.getElementById('testimonial-1');
+                const leftArrow = document.getElementById('prev-testimonial');
+                const rightArrow = document.getElementById('next-testimonial');
+                
+                if (firstCard && leftArrow && rightArrow) {
+                    // Get the first card's height
+                    const cardHeight = firstCard.getBoundingClientRect().height;
+                    const cardTop = firstCard.getBoundingClientRect().top;
+                    const containerTop = document.getElementById('testimonial-container').getBoundingClientRect().top;
+                    
+                    // Calculate the center position relative to the first card
+                    const centerPosition = cardTop - containerTop + (cardHeight / 2);
+                    
+                    // Set arrow positions
+                    leftArrow.style.top = centerPosition + 'px';
+                    rightArrow.style.top = centerPosition + 'px';
+                }
+            }
+            
+            // Set arrow positions on load only
+            setTimeout(setArrowPositions, 100);
+            window.addEventListener('resize', setArrowPositions);
+            
+        });
+    </script>
+</body>
+</html>
