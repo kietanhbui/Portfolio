@@ -1154,15 +1154,13 @@
             const previewPlaceholder = document.getElementById('preview-placeholder');
             const projectTitle = element.querySelector('.font-inter.font-medium').textContent;
             
-            // For now, show placeholder with project title
-            // Later you can replace this with actual image URLs
-            previewPlaceholder.innerHTML = `<span class="text-gray-500 text-sm">${projectTitle}</span>`;
-            previewPlaceholder.style.display = 'flex';
-            previewImage.style.display = 'none';
+            // Map project titles to their preview images
+            const projectImages = {
+                'Access distributed product contents': 'images/content_access_thumb1.png'
+            };
             
-            // If you have actual images, uncomment and modify this:
-            /*
-            const imageUrl = getProjectImageUrl(projectTitle);
+            const imageUrl = projectImages[projectTitle];
+            
             if (imageUrl) {
                 previewImage.src = imageUrl;
                 previewImage.onload = function() {
@@ -1191,8 +1189,12 @@
                     previewImage.style.display = 'block';
                     previewPlaceholder.style.display = 'none';
                 };
+            } else {
+                // Show placeholder with project title for projects without images
+                previewPlaceholder.innerHTML = `<span class="text-gray-500 text-sm">${projectTitle}</span>`;
+                previewPlaceholder.style.display = 'flex';
+                previewImage.style.display = 'none';
             }
-            */
             
             // Show preview
             preview.style.opacity = '1';
